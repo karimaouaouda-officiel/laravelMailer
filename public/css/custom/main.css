@@ -1,0 +1,39 @@
+.tools li:hover{
+    background-color: var(--bs-gray);
+}
+.tools{
+    width: 320px;
+    transition: .5s;
+}
+.tools i{
+    margin: 0px;
+}
+.tools li{
+    margin: 5px 0px;
+    white-space: nowrap;
+}
+
+.tools .after{
+    top: 100.5%;
+    left: 0px;
+    width: 40px;
+    height: 30px;
+}
+
+.tools .after i{
+    line-height: 30px;
+    transition: 0.3s;
+    
+}
+
+.toolsHidden{
+    width: 41px;
+}
+.toolsHidden span , .toolsHidden h3{
+    overflow-wrap:unset;
+    text-overflow: nowrap;
+    white-space: nowrap;
+}
+.tools .hide i{
+    transform: rotate(calc(1turn / 2));
+}
