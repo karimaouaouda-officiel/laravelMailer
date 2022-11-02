@@ -11,9 +11,11 @@ class Send extends Component
      *
      * @return void
      */
-    public function __construct()
+
+     public $user;
+    public function __construct($user)
     {
-        //
+        $this->user  = $user;
     }
 
     /**
@@ -23,6 +25,7 @@ class Send extends Component
      */
     public function render()
     {
-        return view('components.workspace.send');
+        $user = $this->user;
+        return view('components.workspace.send' , compact('user'));
     }
 }

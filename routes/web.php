@@ -60,6 +60,10 @@ Route::middleware(['auth' /*, 'verified'*/])->controller(Controller::class)->gro
 
     //route to workspace page
     Route::get('/workspace' , "workspace" )->name('workspace');
+
+    //get file content to render
+
+    Route::get('/getFileContent' , 'renderContent');
 });
 
 Route::controller(FileController::class)->group(function(){
