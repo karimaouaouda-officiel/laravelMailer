@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +54,7 @@ Route::post('/send' , function(Request $request){
  * this part is for authenticated users (who logged in) that what i mean by middleware(auth)
  * also all the requests will redirecting automatically for App/Http/Controllers/Controller ( controler(Controller) )
  */
-Route::middleware('auth')->controller(Controller::class)->group(function(){
+Route::middleware(['auth' /*, 'verified'*/])->controller(Controller::class)->group(function(){
     //route to emailer page
     Route::get('/emailer' , 'emailer');
 
@@ -67,3 +69,24 @@ Route::controller(FileController::class)->group(function(){
 Route::controller(Controller::class)->group(function(){
     Route::get('getTool' , 'renderTool')->name('getTool');
 });
+
+
+
+/*Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+ 
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+*/
