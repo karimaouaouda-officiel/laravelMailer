@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +38,7 @@ class FileController extends Controller
         $file->name = $info['name'];
         $file->description = $info['desc'];
         $file->path = $info['path'];
+        $file->size = $info['size'];
         $file->user_id = Auth::user()->id;
 
         $name = $info['name'].".txt";
@@ -80,6 +82,7 @@ class FileController extends Controller
             'name' => $request->input('fileName'),
             'file' => $request->file("file"),
             'desc' => $request->input("desc"),
+            'size' => $request->file('file')->getSize(),
             'path' => "/public/user_".Auth::user()->id
         ];
 
@@ -133,6 +136,17 @@ class FileController extends Controller
         //
     }
 
+    public function remove(Request $req){
+        $file = File::find($req->input('file'));
+
+        $this->destroy($file);
+
+        return json_encode([
+            'statuts' => 200,
+            "message" => "removed with successfully"
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -141,6 +155,7 @@ class FileController extends Controller
      */
     public function destroy(File $file)
     {
-        //
+        Storage::delete($file->path."/".$file->name.".txt");
+        $file->delete();
     }
 }

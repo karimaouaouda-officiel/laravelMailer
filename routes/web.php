@@ -54,17 +54,26 @@ Route::post('/send' , function(Request $request){
  * this part is for authenticated users (who logged in) that what i mean by middleware(auth)
  * also all the requests will redirecting automatically for App/Http/Controllers/Controller ( controler(Controller) )
  */
-Route::middleware(['auth' /*, 'verified'*/])->controller(Controller::class)->group(function(){
-    //route to emailer page
-    Route::get('/emailer' , 'emailer');
+Route::middleware(['auth' /*, 'verified'*/])->group(function(){
+    Route::controller(Controller::class)->group(function(){
+        //route to emailer page
+        Route::get('/emailer' , 'emailer');
 
-    //route to workspace page
-    Route::get('/workspace' , "workspace" )->name('workspace');
+        //route to workspace page
+        Route::get('/workspace' , "workspace" )->name('workspace');
 
-    //get file content to render
+        //get file content to render
 
-    Route::get('/getFileContent' , 'renderContent');
+        Route::get('/getFileContent' , 'renderContent');
+    });
+
+    Route::controller(FileController::class)->group(function(){
+        Route::post('/removeFile' , "remove");
+    });
+
+
 });
+
 
 Route::controller(FileController::class)->group(function(){
     Route::post('/upload' , 'store')->name('newFile');
